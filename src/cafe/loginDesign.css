@@ -1,0 +1,74 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Mar 14, 2024, 12:59:48 AM
+    Author     : sumaiya
+*/
+
+/*for the create new account page*/
+.gradient{
+    -fx-background-color: linear-gradient(to bottom right, #132e48, #2d78c9);   
+}
+
+/*for the login page*/
+.white-form{
+    -fx-background-color: #fff;
+}
+
+/*for Login Account line*/
+.head-label{
+    -fx-border-color: #174c5b;
+    -fx-border-width: 0 0 0 5px;
+    -fx-padding: 0 0 0 3px;
+}
+
+/*for log in button*/
+.login-btn{
+    -fx-background-color: linear-gradient(to bottom right, #2da1c1, #174c5b);
+    -fx-background-radius: 5px;
+    -fx-cursor: hand;
+    -fx-text-fill: #fff;
+    -fx-font-size: 14px;
+}
+.login-btn:hover{
+    -fx-background-color: linear-gradient(to bottom right, #2ebfac, #2da1c1);
+}
+
+
+/*for create account button*/
+.create-btn{
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
+    -fx-text-fill: #fff;
+    -fx-border-color: #fff;
+    -fx-border-width: 1px;
+}
+.create-btn:hover{
+    -fx-background-color: #fff;
+    -fx-text-fill: #000;
+}
+
+/* for the log in and password textfield*/
+.textfield{
+    -fx-background-color: transparent;
+    -fx-border-color: linear-gradient(to bottom right, #2da1c1, #174c5b);
+    -fx-cursor: hand;
+    -fx-border-width: .3px;
+}
+.textfield:focused{
+    -fx-border-width: 1px;
+}
+
+
+
+
+
+
+/* */
+/* */
+/* */
+/* */
+
+
