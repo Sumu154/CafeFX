@@ -5,9 +5,24 @@
 package cafe;
 
 
+import java.io.File;
+import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
@@ -16,12 +31,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.Date;
-import java.util.ResourceBundle;
+import javafx.stage.Stage;
 
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
@@ -198,6 +208,35 @@ public class mainFormController implements Initializable {
                 e.printStackTrace();
             }
         }
+    }
+
+
+    public void inventoryClearBtn(){
+        
+        inventory_productID.setText("");
+        inventory_productName.setText("");
+        inventory_stock.setText("");
+        inventory_price.setText("");
+        inventory_type.getSelectionModel().clearSelection();
+        inventory_status.getSelectionModel().clearSelection();
+        data.path = "";
+        inventory_imageView.setImage(null);
+    }
+    
+    public void inventoryImportBtn(){
+        
+        FileChooser openFile = new FileChooser();
+        openFile.getExtensionFilters().add(new ExtensionFilter("Open Image File", "*png", "*jpg"));
+        
+        File file = openFile.showOpenDialog(main_form.getScene().getWindow());
+        
+        if(file != null){
+            data.path = file.getAbsolutePath();
+            image = new Image(file.toURI().toString(), 124, 135, false, true);
+            
+            inventory_imageView.setImage(image);
+        }
+        
     }
     
     
