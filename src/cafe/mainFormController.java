@@ -238,6 +238,36 @@ public class mainFormController implements Initializable {
         }
         
     }
+
+
+
+
+    private String[] typeList = {"Drinks", "Meals"};
+    public void inventoryTypeList(){
+        List<String> list = new ArrayList<>();
+        
+        for(String data: typeList){
+            list.add(data);
+        }
+        
+        ObservableList listData = FXCollections.observableArrayList(list);
+        inventory_type.setItems(listData);
+    }
+    
+    
+    
+    private String[] statusList = {"Available", "Unavailable"};
+    public void inventoryStatusList(){
+        List<String> list = new ArrayList<>();
+        
+        for(String data: statusList){
+            list.add(data);
+        }
+        
+        ObservableList listdata = FXCollections.observableArrayList(list);
+        inventory_status.setItems(listdata);
+        
+    }
     
     
     
