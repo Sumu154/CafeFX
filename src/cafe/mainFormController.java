@@ -16,7 +16,15 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.Date;
+import java.util.ResourceBundle;
 
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 
 /**
  *
@@ -105,11 +113,97 @@ public class mainFormController implements Initializable {
 
     @FXML
     private Button menu_btn;
+
+    public Alert alert;
+    
+    public Connection connect;
+    public PreparedStatement prepare;
+    public Statement statement;
+    public ResultSet result;
+    public Image image;
+    
+    
+    public void inventoryAddBtn(){
+        
+        if(inventory_productID.getText().isEmpty() || inventory_productName.getText().isEmpty() || inventory_price.getText().isEmpty()
+                || inventory_type.getSelectionModel().getSelectedItem() == null
+                || inventory_status.getSelectionModel().getSelectedItem() == null
+                || data.path == null){
+            
+            alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Please fill all blank fields");
+            alert.showAndWait();
+            
+        }
+        else{
+            
+            //check product id;
+            String checkProdID = "SELECT prod_id FROM product WHERE prod_id = '"
+                    + inventory_productID.getText() + "'";
+            
+            connect = database.connectDB();
+            
+            try{
+                statement = connect.createStatement();
+                result = statement.executeQuery(checkProdID);
+                
+                if(result.next()){
+                    alert = new Alert(AlertType.ERROR);
+                    alert.setTitle("Error Message");
+                    alert.setHeaderText(null);
+                    alert.setContentText(inventory_productID.getText() + " was already taken");
+                    alert.showAndWait();
+                }
+                else{
+                    
+                    String insertData = "INSERT INTO product "
+                            + "(prod_id, prod_name, type, price, stock, status, image, date) "
+                            + "VALUES(?,?,?,?,?,?,?,?)";
+                    
+                    prepare = connect.prepareStatement(insertData);
+                    prepare.setString(1, inventory_productID.getText());
+                    prepare.setString(2, inventory_productName.getText());
+                    prepare.setString(3, (String)inventory_type.getSelectionModel().getSelectedItem());
+                    prepare.setString(4, inventory_price.getText());
+                    prepare.setString(5, inventory_stock.getText());
+                    prepare.setString(6, (String)inventory_status.getSelectionModel().getSelectedItem());
+                    
+                    String path = data.path;
+                    path = path.replace("\\", "\\\\");
+                    
+                    prepare.setString(7, path);
+                    
+                    Date date = new Date();
+                    java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+                    
+                    prepare.setString(8, String.valueOf(sqlDate));
+                    
+                    prepare.executeUpdate();
+                    
+                    alert = new Alert(AlertType.INFORMATION);
+                    alert.setTitle("Information Message");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Successfully Added...");
+                    alert.showAndWait();
+                    
+                    inventoryShowData();
+                    inventoryClearBtn();
+                   
+                }
+                
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
     
     
     
     
-    
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
