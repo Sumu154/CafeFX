@@ -268,6 +268,38 @@ public class mainFormController implements Initializable {
         inventory_status.setItems(listdata);
         
     }
+
+
+    public void logout(){
+        try{
+            alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("Error Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Are you sure to logout");
+            Optional<ButtonType> option = alert.showAndWait();
+            
+            
+            if(option.get().equals(ButtonType.OK)){
+                
+                // link the login form
+                logout_btn.getScene().getWindow().hide();
+                
+                Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+                
+                Stage stage = new Stage();
+                Scene scene = new Scene(root);
+                
+                stage.setTitle("CafeFx");
+                
+                stage.setScene(scene);
+                stage.show();
+            }
+            
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    }
     
     
     
