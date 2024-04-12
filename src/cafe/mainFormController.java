@@ -270,6 +270,68 @@ public class mainFormController implements Initializable {
     }
 
 
+    public void inventorySelectData(){
+        productData pdata = inventory_tableView.getSelectionModel().getSelectedItem();
+        int number = inventory_tableView.getSelectionModel().getSelectedIndex();
+        
+        if((number-1) < -1){
+            return;
+        }
+        
+        inventory_productID.setText(pdata.getProductId());
+        inventory_productName.setText(pdata.getProductName());
+        inventory_stock.setText(String.valueOf(pdata.getStock()));
+        inventory_price.setText(String.valueOf(pdata.getPrice()));
+        
+        data.path = "File:" + pdata.getImage();
+        
+       image = new Image(data.path, 124, 135, false, true);
+       
+       inventory_imageView.setImage(image);
+    }
+    
+    
+    
+    // to merge all datas
+    public ObservableList<productData> inventoryDataList(){
+        ObservableList<productData> listdata = FXCollections.observableArrayList();
+        
+        String sql = "SELECT * FROM product";
+        
+        connect = database.connectDB();
+        
+        productData prodData;
+        
+        try{
+            prepare = connect.prepareStatement(sql);
+            result = prepare.executeQuery();
+            
+            while(result.next()){
+                
+                prodData = new productData(result.getInt("id"), 
+                        result.getString("prod_id"),
+                        result.getString("prod_name"),
+                        result.getString("type"),
+                        result.getDouble("price"),
+                        result.getInt("stock"),
+                        result.getString("status"),
+                        result.getString("image"),
+                        result.getDate("date"));
+                
+                listdata.add(prodData);
+                
+            }
+            
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        
+        return listdata; 
+    }
+    
+
+
     public void logout(){
         try{
             alert = new Alert(AlertType.CONFIRMATION);
