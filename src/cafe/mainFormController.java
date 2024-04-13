@@ -329,6 +329,26 @@ public class mainFormController implements Initializable {
         
         return listdata; 
     }
+
+
+    // to show all the data in table
+    private ObservableList<productData> inventoryListData;
+    
+    public void inventoryShowData(){
+        inventoryListData = inventoryDataList();
+        
+        
+        
+        inventory_col_productID.setCellValueFactory(new PropertyValueFactory<>("productId"));
+        inventory_col_productName.setCellValueFactory(new PropertyValueFactory<>("productName"));
+        inventory_col_type.setCellValueFactory(new PropertyValueFactory<>("type"));
+        inventory_col_price.setCellValueFactory(new PropertyValueFactory<>("price"));
+        inventory_col_stock.setCellValueFactory(new PropertyValueFactory<>("stock"));
+        inventory_col_status.setCellValueFactory(new PropertyValueFactory<>("status"));
+        inventory_col_date.setCellValueFactory(new PropertyValueFactory<>("date"));
+            
+        inventory_tableView.setItems(inventoryListData);
+    }
     
 
 
