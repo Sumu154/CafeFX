@@ -226,6 +226,57 @@ public class mainFormController implements Initializable {
             alert.showAndWait();
             
         } 
+        else {
+            
+            String path = data.path;
+            path = path.replace("\\", "\\\\");
+            
+            Date date = new Date();
+            java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+            
+            String updateData = "UPDATE product SET "
+                    + "prod_id = '" + inventory_productID.getText() + "', prod_name = '"
+                    + inventory_productName.getText() + "', type = '"
+                    + inventory_type.getSelectionModel().getSelectedItem() + "', stock = '"
+                    + inventory_stock.getText() + "', price = '"
+                    + inventory_price.getText() + "', status = '"
+                    + inventory_status.getSelectionModel().getSelectedItem() + "', image = '"
+                    + path + "', date = '"
+                    + String.valueOf(sqlDate) + "' WHERE id = " + data.id;
+            
+            connect = database.connectDB();
+            
+            try {
+                
+                alert = new Alert(AlertType.CONFIRMATION);
+                alert.setTitle("Error Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Are you sure you want to UPDATE PRoduct ID: " + inventory_productID.getText() + "?");
+                Optional<ButtonType> option = alert.showAndWait();
+                
+                if (option.get().equals(ButtonType.OK)) {
+                    prepare = connect.prepareStatement(updateData);
+                    prepare.executeUpdate();
+                    
+                    alert = new Alert(AlertType.INFORMATION);
+                    alert.setTitle("Error Message");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Successfully Updated!");
+                    alert.showAndWait();
+
+                    inventoryShowData();
+                    inventoryClearBtn();
+                } else {
+                    alert = new Alert(AlertType.ERROR);
+                    alert.setTitle("Error Message");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Cancelled.");
+                    alert.showAndWait();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 
