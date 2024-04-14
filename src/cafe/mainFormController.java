@@ -210,6 +210,24 @@ public class mainFormController implements Initializable {
         }
     }
 
+    // update button
+    public void inventoryUpdateBtn(){
+        
+        if (inventory_productID.getText().isEmpty()
+                || inventory_productName.getText().isEmpty() || inventory_type.getSelectionModel().getSelectedItem() == null
+                || inventory_stock.getText().isEmpty() || inventory_price.getText().isEmpty()
+                || inventory_status.getSelectionModel().getSelectedItem() == null
+                || data.path == null || data.id == 0) {
+            
+            alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Please fill all blank fields");
+            alert.showAndWait();
+            
+        } 
+    }
+
 
     public void inventoryClearBtn(){
         
