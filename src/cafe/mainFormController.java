@@ -283,11 +283,16 @@ public class mainFormController implements Initializable {
         inventory_stock.setText(String.valueOf(pdata.getStock()));
         inventory_price.setText(String.valueOf(pdata.getPrice()));
         
-        data.path = "File:" + pdata.getImage();
+        data.path = pdata.getImage();
         
-       image = new Image(data.path, 124, 135, false, true);
-       
-       inventory_imageView.setImage(image);
+        String path = "File:" + pdata.getImage();
+        data.date = String.valueOf(pdata.getDate());
+        data.id = pdata.getId();
+        
+        image = new Image(path, 124, 135, false, true);
+        inventory_imageView.setImage(image);
+        
+        
     }
     
     
