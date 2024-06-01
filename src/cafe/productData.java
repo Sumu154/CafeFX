@@ -7,11 +7,6 @@ package cafe;
 import java.sql.Date;
 
 
-
-/**
- *
- * @author sumaiya
- */
 public class productData {
     private Integer id;
     private String productId;
@@ -22,6 +17,7 @@ public class productData {
     private String status;
     private String image;
     private Date date;
+    private Integer quantity;
     
     
     public productData(Integer id, String productId, String productName, String type, 
@@ -36,6 +32,18 @@ public class productData {
         this.status = status;
         this.image = image;
         this.date = date;
+    }
+    
+     public productData(Integer id, String productId, String productName, 
+            String type, Integer quantity, Double price, String image, Date date){
+        this.id = id;
+        this.productId = productId;
+        this.productName = productName;
+        this.type = type;
+        this.price = price;
+        this.image = image;
+        this.date = date;
+        this.quantity = quantity;
     }
     
     public Integer getId(){
@@ -72,6 +80,10 @@ public class productData {
     
     public Date getDate(){
         return date;
+    }
+    
+    public Integer getQuantity(){
+        return quantity;
     }
     
     

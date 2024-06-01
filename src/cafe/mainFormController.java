@@ -4,12 +4,8 @@
  */
 package cafe;
 
-
 import java.io.File;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -33,8 +29,19 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.Date;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
+import javafx.scene.layout.GridPane;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
+
 
 /**
  *
@@ -123,7 +130,50 @@ public class mainFormController implements Initializable {
 
     @FXML
     private Button menu_btn;
+    
+  
 
+    @FXML
+    private TextField menu_amount;
+
+
+    @FXML
+    private Label menu_change;
+
+    @FXML
+    private TableColumn<?, ?> menu_col_price;
+
+    @FXML
+    private TableColumn<?, ?> menu_col_productName;
+
+    @FXML
+    private TableColumn<?, ?> menu_col_quantity;
+
+    @FXML
+    private AnchorPane menu_form;
+
+    @FXML
+    private GridPane menu_gridPane;
+
+    @FXML
+    private Button menu_payBtn;
+
+    @FXML
+    private Button menu_receiptBtn;
+
+    @FXML
+    private Button menu_removeBtn;
+
+    @FXML
+    private ScrollPane menu_scrollPane;
+
+    @FXML
+    private TableView<?> menu_tableView;
+
+    @FXML
+    private Label menu_total;
+    
+    
     public Alert alert;
     
     public Connection connect;
@@ -131,6 +181,8 @@ public class mainFormController implements Initializable {
     public Statement statement;
     public ResultSet result;
     public Image image;
+    
+    private ObservableList<productData> cardListData = FXCollections.observableArrayList();
     
     
     public void inventoryAddBtn(){
@@ -209,13 +261,15 @@ public class mainFormController implements Initializable {
             }
         }
     }
-
-    // update button
+    
+    
     public void inventoryUpdateBtn(){
         
         if (inventory_productID.getText().isEmpty()
-                || inventory_productName.getText().isEmpty() || inventory_type.getSelectionModel().getSelectedItem() == null
-                || inventory_stock.getText().isEmpty() || inventory_price.getText().isEmpty()
+                || inventory_productName.getText().isEmpty()
+                || inventory_type.getSelectionModel().getSelectedItem() == null
+                || inventory_stock.getText().isEmpty()
+                || inventory_price.getText().isEmpty()
                 || inventory_status.getSelectionModel().getSelectedItem() == null
                 || data.path == null || data.id == 0) {
             
@@ -225,8 +279,7 @@ public class mainFormController implements Initializable {
             alert.setContentText("Please fill all blank fields");
             alert.showAndWait();
             
-        } 
-        else {
+        } else {
             
             String path = data.path;
             path = path.replace("\\", "\\\\");
@@ -278,8 +331,52 @@ public class mainFormController implements Initializable {
             }
         }
     }
+    
+    // delete button
+    public void inventoryDeleteBtn(){
+        if(data.id == 0){
+            alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Please fill all blank fields");
+            alert.showAndWait();
+            
+        } else {
+            alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("Error Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Are you sure you want to DELETE Product ID: " + inventory_productID.getText() + "?");
+            Optional<ButtonType> option = alert.showAndWait();
+            
+            if (option.get().equals(ButtonType.OK)) {
+                String deleteData = "DELETE FROM product WHERE id = " + data.id;
+                try {
+                    prepare = connect.prepareStatement(deleteData);
+                    prepare.executeUpdate();
+                    
+                    alert = new Alert(AlertType.ERROR);
+                    alert.setTitle("Error Message");
+                    alert.setHeaderText(null);
+                    alert.setContentText("successfully Deleted!");
+                    alert.showAndWait();
 
-
+            
+                    inventoryShowData();
+                    inventoryClearBtn();
+                    
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Error Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Cancelled");
+                alert.showAndWait();
+            }
+        }
+    }
+    
     public void inventoryClearBtn(){
         
         inventory_productID.setText("");
@@ -289,6 +386,7 @@ public class mainFormController implements Initializable {
         inventory_type.getSelectionModel().clearSelection();
         inventory_status.getSelectionModel().clearSelection();
         data.path = "";
+        data.id = 0;
         inventory_imageView.setImage(null);
     }
     
@@ -307,38 +405,8 @@ public class mainFormController implements Initializable {
         }
         
     }
-
-
-
-
-    private String[] typeList = {"Drinks", "Meals"};
-    public void inventoryTypeList(){
-        List<String> list = new ArrayList<>();
-        
-        for(String data: typeList){
-            list.add(data);
-        }
-        
-        ObservableList listData = FXCollections.observableArrayList(list);
-        inventory_type.setItems(listData);
-    }
     
     
-    
-    private String[] statusList = {"Available", "Unavailable"};
-    public void inventoryStatusList(){
-        List<String> list = new ArrayList<>();
-        
-        for(String data: statusList){
-            list.add(data);
-        }
-        
-        ObservableList listdata = FXCollections.observableArrayList(list);
-        inventory_status.setItems(listdata);
-        
-    }
-
-
     public void inventorySelectData(){
         productData pdata = inventory_tableView.getSelectionModel().getSelectedItem();
         int number = inventory_tableView.getSelectionModel().getSelectedIndex();
@@ -403,8 +471,8 @@ public class mainFormController implements Initializable {
         
         return listdata; 
     }
-
-
+    
+    
     // to show all the data in table
     private ObservableList<productData> inventoryListData;
     
@@ -424,8 +492,68 @@ public class mainFormController implements Initializable {
         inventory_tableView.setItems(inventoryListData);
     }
     
-
-
+  
+    private String[] typeList = {"Drinks", "Meals"};
+    public void inventoryTypeList(){
+        List<String> list = new ArrayList<>();
+        
+        for(String data: typeList){
+            list.add(data);
+        }
+        
+        ObservableList listData = FXCollections.observableArrayList(list);
+        inventory_type.setItems(listData);
+    }
+    
+    
+    
+    private String[] statusList = {"Available", "Unavailable"};
+    public void inventoryStatusList(){
+        List<String> list = new ArrayList<>();
+        
+        for(String data: statusList){
+            list.add(data);
+        }
+        
+        ObservableList listdata = FXCollections.observableArrayList(list);
+        inventory_status.setItems(listdata);
+        
+    }
+    
+    
+    public ObservableList<productData> menuGetData() {
+        
+        String sql = "SELECT * FROM product";
+        
+        ObservableList<productData> listData = FXCollections.observableArrayList();
+        connect = database.connectDB();
+        
+        try {
+            prepare = connect.prepareStatement(sql);
+            result = prepare.executeQuery();
+            
+            productData prod;
+            
+            while (result.next()) {
+                prod = new productData(result.getInt("id"),
+                        result.getString("prod_id"),
+                        result.getString("prod_name"),
+                        result.getString("type"),
+                        result.getInt("stock"),
+                        result.getDouble("price"),
+                        result.getString("image"),
+                        result.getDate("date"));
+                
+                listData.add(prod);
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return listData;
+    }
+    
     public void logout(){
         try{
             alert = new Alert(AlertType.CONFIRMATION);
@@ -458,9 +586,6 @@ public class mainFormController implements Initializable {
     }
     
     
-    
-    
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
