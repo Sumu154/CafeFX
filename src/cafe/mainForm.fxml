@@ -51,12 +51,12 @@
                                     <Font size="16.0" />
                                  </font>
                               </Button>
-                              <Button fx:id="menu_btn" layoutX="10.0" layoutY="322.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="45.0" prefWidth="200.0" styleClass="nav-btn" stylesheets="@mainFormDesign.css" text="Menu">
+                              <Button fx:id="menu_btn" layoutX="10.0" layoutY="327.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="45.0" prefWidth="200.0" styleClass="nav-btn" stylesheets="@mainFormDesign.css" text="Menu">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
                               </Button>
-                              <Button fx:id="customers_btn" layoutX="10.0" layoutY="380.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="200.0" styleClass="nav-btn" stylesheets="@mainFormDesign.css" text="Customers">
+                              <Button fx:id="customers_btn" layoutX="10.0" layoutY="380.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="45.0" prefWidth="200.0" styleClass="nav-btn" stylesheets="@mainFormDesign.css" text="Customers">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
@@ -298,7 +298,7 @@
                               <Separator layoutX="15.0" layoutY="314.0" prefHeight="13.0" prefWidth="850.0" AnchorPane.bottomAnchor="281.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" />
                            </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="menu_form" layoutX="240.0" layoutY="123.0" prefHeight="600.0" prefWidth="880.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="menu_form" layoutX="240.0" layoutY="123.0" prefHeight="600.0" prefWidth="880.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane layoutX="15.0" layoutY="9.0" prefHeight="574.0" prefWidth="519.0" stylesheets="@mainFormDesign.css" AnchorPane.bottomAnchor="16.600000000000023" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="345.5999999999999" AnchorPane.topAnchor="8.800000000000068">
                                  <styleClass>
@@ -349,17 +349,17 @@
                                           <Font size="15.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="menu_total" layoutX="133.0" layoutY="292.0" text="৳0.00" AnchorPane.bottomAnchor="252.80000000000007" AnchorPane.rightAnchor="153.4">
+                                    <Label fx:id="menu_total" layoutX="143.0" layoutY="298.0" text="৳0.00" AnchorPane.bottomAnchor="253.33333333333331" AnchorPane.rightAnchor="143.0">
                                        <font>
                                           <Font size="15.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="menu_change" layoutX="133.0" layoutY="361.0" text="৳0.00" AnchorPane.bottomAnchor="183.80000000000007" AnchorPane.rightAnchor="153.4">
+                                    <Label fx:id="menu_change" layoutX="143.0" layoutY="368.0" text="৳0.00" AnchorPane.bottomAnchor="183.33333333333331" AnchorPane.rightAnchor="143.0">
                                        <font>
                                           <Font size="15.0" />
                                        </font>
                                     </Label>
-                                    <TextField fx:id="menu_amount" layoutX="131.0" layoutY="326.0" prefHeight="26.0" prefWidth="154.0" promptText="৳0.00" AnchorPane.bottomAnchor="214.00000000000009" AnchorPane.rightAnchor="34.599999999999994" />
+                                    <TextField fx:id="menu_amount" layoutX="131.0" layoutY="326.0" onAction="#menuAmount" prefHeight="26.0" prefWidth="154.0" promptText="৳0.00" AnchorPane.bottomAnchor="214.00000000000009" AnchorPane.rightAnchor="34.599999999999994" />
                                     <Button fx:id="menu_payBtn" layoutX="49.0" layoutY="435.0" mnemonicParsing="false" onAction="#menuPayBtn" prefHeight="34.0" prefWidth="236.0" stylesheets="@mainFormDesign.css" text="Pay" AnchorPane.bottomAnchor="97.00000000000009" AnchorPane.leftAnchor="49.0" AnchorPane.rightAnchor="35.19999999999999">
                                        <styleClass>
                                           <String fx:value="nav-btn" />
@@ -385,6 +385,34 @@
                               </AnchorPane>
                            </children>
                         </AnchorPane>
+                        <AnchorPane fx:id="customers_form" layoutX="161.0" layoutY="142.0" prefHeight="600.0" prefWidth="880.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <AnchorPane layoutX="14.0" layoutY="13.0" prefHeight="573.0" prefWidth="849.0" stylesheets="@mainFormDesign.css" AnchorPane.bottomAnchor="13.666666666666629" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="16.66666666666663" AnchorPane.topAnchor="13.333333333333258">
+                                 <styleClass>
+                                    <String fx:value="white" />
+                                    <String fx:value="shadow" />
+                                    <String fx:value="radius" />
+                                 </styleClass>
+                                 <children>
+                                    <Label layoutX="47.0" layoutY="27.0" text="Customers" AnchorPane.leftAnchor="47.0" AnchorPane.topAnchor="27.0">
+                                       <font>
+                                          <Font size="24.0" />
+                                       </font>
+                                    </Label>
+                                    <TableView fx:id="customers_tableView" layoutX="33.0" layoutY="79.0" prefHeight="476.0" prefWidth="789.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="18.333333333333258" AnchorPane.leftAnchor="33.0" AnchorPane.rightAnchor="26.66666666666663" AnchorPane.topAnchor="79.33333333333326">
+                                      <columns>
+                                        <TableColumn fx:id="customers_col_customerID" prefWidth="205.33334350585938" text="Customer ID" />
+                                        <TableColumn fx:id="customers_col_total" prefWidth="195.33334350585938" text="Total(৳)" />
+                                          <TableColumn fx:id="customers_col_date" prefWidth="170.00003051757812" text="Date" />
+                                          <TableColumn fx:id="customers_col_cashier" prefWidth="216.00009155273438" text="Cashier" />
+                                      </columns>
+                                       <columnResizePolicy>
+                                          <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                       </columnResizePolicy>
+                                    </TableView>
+                                 </children>
+                              </AnchorPane>
+                           </children></AnchorPane>
                      </children>
                   </AnchorPane>
                </center>

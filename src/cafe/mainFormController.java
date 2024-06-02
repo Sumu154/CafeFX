@@ -54,6 +54,24 @@ public class mainFormController implements Initializable {
     
     @FXML
     private Button customers_btn;
+    
+    @FXML
+    private AnchorPane customers_form;
+    
+    @FXML
+    private TableView<customersData> customers_tableView;
+    
+    @FXML
+    private TableColumn<customersData, String> customers_col_customerID;
+    
+    @FXML
+    private TableColumn<customersData, String> customers_col_total;
+    
+    @FXML
+    private TableColumn<customersData, String> customers_col_date;
+    
+    @FXML
+    private TableColumn<customersData, String> customers_col_cashier;
 
     @FXML
     private Button dashboard_btn;
@@ -652,7 +670,7 @@ public class mainFormController implements Initializable {
         if ((num - 1) < -1) {
             return;
         }
-        // TO GET THE ID PER ORDER
+       
         getid = prod.getId();
         
     }
@@ -806,7 +824,7 @@ public class mainFormController implements Initializable {
             
         }
     }
-/*    
+    /*
     public void menuReceiptBtn() {
         
         if (totalP == 0 || menu_amount.getText().isEmpty()) {
@@ -835,7 +853,7 @@ public class mainFormController implements Initializable {
         }
         
     }
- */   
+    */
     public void menuRestart() {
         totalP = 0;
         change = 0;
@@ -883,28 +901,67 @@ public class mainFormController implements Initializable {
         }
     }
     
+    public ObservableList<customersData> customersDataList() {
+        
+        ObservableList<customersData> listData = FXCollections.observableArrayList();
+        String sql = "SELECT * FROM receipt";
+        connect = database.connectDB();
+        
+        try {
+            
+            prepare = connect.prepareStatement(sql);
+            result = prepare.executeQuery();
+            customersData cData;
+            
+            while (result.next()) {
+                cData = new customersData(result.getInt("id"),
+                        result.getInt("customer_id"),
+                        result.getDouble("total"),
+                        result.getDate("date"),
+                        result.getString("em_username"));
+                
+                listData.add(cData);
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return listData;
+    }
+    
+    private ObservableList<customersData> customersListData;
+    
+    public void customersShowData() {
+        customersListData = customersDataList();
+        
+        customers_col_customerID.setCellValueFactory(new PropertyValueFactory<>("customerID"));
+        customers_col_total.setCellValueFactory(new PropertyValueFactory<>("total"));
+        customers_col_date.setCellValueFactory(new PropertyValueFactory<>("date"));
+        customers_col_cashier.setCellValueFactory(new PropertyValueFactory<>("emUsername"));
+        
+        customers_tableView.setItems(customersListData);
+    }
+    
     public void switchForm(ActionEvent event) {
         
         if (event.getSource() == dashboard_btn) {
             dashboard_form.setVisible(true);
             inventory_form.setVisible(false);
             menu_form.setVisible(false);
-            /*
             customers_form.setVisible(false);
-            
+        /*    
             dashboardDisplayNC();
             dashboardDisplayTI();
             dashboardTotalI();
             dashboardNSP();
             dashboardIncomeChart();
             dashboardCustomerChart();
-*/
-            
+        */    
         } else if (event.getSource() == inventory_btn) {
             dashboard_form.setVisible(false);
             inventory_form.setVisible(true);
             menu_form.setVisible(false);
-      //      customers_form.setVisible(false);
+            customers_form.setVisible(false);
             
             inventoryTypeList();
             inventoryStatusList();
@@ -913,7 +970,7 @@ public class mainFormController implements Initializable {
             dashboard_form.setVisible(false);
             inventory_form.setVisible(false);
             menu_form.setVisible(true);
-         //   customers_form.setVisible(false);
+            customers_form.setVisible(false);
             
             menuDisplayCard();
             menuDisplayTotal();
@@ -922,9 +979,9 @@ public class mainFormController implements Initializable {
             dashboard_form.setVisible(false);
             inventory_form.setVisible(false);
             menu_form.setVisible(false);
-            //customers_form.setVisible(true);
+            customers_form.setVisible(true);
             
-//            customersShowData();
+            customersShowData();
         }
         
     }

@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="card_form" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="180.0" prefWidth="230.0" stylesheets="@cardDesign.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cafe.cardProductController">
+<AnchorPane fx:id="card_form" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="180.0" prefWidth="230.0" stylesheets="@cardDesign.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cafe.cardProductController">
    <children>
       <VBox layoutX="65.0" layoutY="-10.0" prefHeight="180.0" prefWidth="230.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -25,7 +25,7 @@
                         <Insets left="25.0" />
                      </HBox.margin>
                   </Label>
-                  <Label fx:id="prod_price" alignment="CENTER_RIGHT" prefHeight="21.0" prefWidth="86.0" text="\$0.0">
+                  <Label fx:id="prod_price" alignment="CENTER_RIGHT" prefHeight="21.0" prefWidth="86.0" text="৳0.00">
                      <HBox.margin>
                         <Insets right="25.0" />
                      </HBox.margin>
