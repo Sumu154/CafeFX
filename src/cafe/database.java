@@ -15,8 +15,8 @@ public class database {
        public static Connection connectDB(){
            try{
                String url = "jdbc:mysql://localhost:3307/cafefx";
-               String username = "admin";
-               String password = "admin@7";
+               String username = "sumaiya";
+               String password = "sumaiya";
                
                Class.forName("com.mysql.cj.jdbc.Driver");
                
@@ -24,7 +24,10 @@ public class database {
                return connect;
                
       
-           }catch(Exception e){e.printStackTrace();}
+           }
+           catch(Exception e){
+               e.printStackTrace();
+           }
            return null;
        }
 }

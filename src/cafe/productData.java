@@ -49,11 +49,7 @@ public class productData {
     public Integer getId() {
         return id;
     }
-
-    public String getProductId() {
-        return productId;
-    }
-
+    
     public String getProductName() {
         return productName;
     }
@@ -62,8 +58,17 @@ public class productData {
         return type;
     }
 
+
+    public String getProductId() {
+        return productId;
+    }
+
+    
     public Integer getStock() {
         return stock;
+    }
+    public Date getDate() {
+        return date;
     }
 
     public Double getPrice() {
@@ -78,9 +83,7 @@ public class productData {
         return image;
     }
 
-    public Date getDate() {
-        return date;
-    }
+    
     
     public Integer getQuantity(){
         return quantity;

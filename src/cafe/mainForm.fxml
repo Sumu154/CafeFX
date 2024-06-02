@@ -41,17 +41,17 @@
                                     </Label>
                                  </children>
                               </AnchorPane>
-                              <Button fx:id="dashboard_btn" layoutX="10.0" layoutY="201.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="200.0" styleClass="nav-btn" stylesheets="@mainFormDesign.css" text="Dashboard">
+                              <Button fx:id="dashboard_btn" layoutX="10.0" layoutY="201.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="45.0" prefWidth="200.0" styleClass="nav-btn" stylesheets="@mainFormDesign.css" text="Dashboard">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
                               </Button>
-                              <Button fx:id="inventory_btn" layoutX="10.0" layoutY="261.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="200.0" styleClass="nav-btn" stylesheets="@mainFormDesign.css" text="Inventory">
+                              <Button fx:id="inventory_btn" layoutX="10.0" layoutY="261.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="45.0" prefWidth="200.0" styleClass="nav-btn" stylesheets="@mainFormDesign.css" text="Inventory">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
                               </Button>
-                              <Button fx:id="menu_btn" layoutX="10.0" layoutY="322.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="200.0" styleClass="nav-btn" stylesheets="@mainFormDesign.css" text="Menu">
+                              <Button fx:id="menu_btn" layoutX="10.0" layoutY="322.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="45.0" prefWidth="200.0" styleClass="nav-btn" stylesheets="@mainFormDesign.css" text="Menu">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
@@ -61,7 +61,7 @@
                                     <Font size="16.0" />
                                  </font>
                               </Button>
-                              <Label layoutX="55.0" layoutY="561.0" prefHeight="17.0" prefWidth="54.0" text="Sign Out" textFill="WHITE" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="55.0">
+                              <Label layoutX="55.0" layoutY="561.0" prefHeight="20.0" prefWidth="75.0" text="Sign Out" textFill="WHITE" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="55.0">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -75,6 +75,11 @@
                                     <String fx:value="shadow" />
                                  </styleClass>
                               </Button>
+                              <Label fx:id="username" layoutX="20.0" layoutY="125.0" textFill="WHITE">
+                                 <font>
+                                    <Font name="System Bold" size="17.0" />
+                                 </font>
+                              </Label>
                            </children>
                         </AnchorPane>
                      </children>
@@ -83,7 +88,7 @@
                <center>
                   <AnchorPane accessibleRole="BUTTON" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                      <children>
-                        <AnchorPane layoutX="213.0" layoutY="132.0" prefHeight="600.0" prefWidth="880.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="dashboard_form" layoutX="213.0" layoutY="132.0" prefHeight="600.0" prefWidth="880.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane layoutX="15.0" layoutY="217.0" prefHeight="369.0" prefWidth="850.0" stylesheets="@mainFormDesign.css" AnchorPane.bottomAnchor="13.399999999999977" AnchorPane.leftAnchor="15.200000000000045" AnchorPane.rightAnchor="14.600000000000023" AnchorPane.topAnchor="216.79999999999995">
                                  <styleClass>
@@ -355,7 +360,7 @@
                                        </font>
                                     </Label>
                                     <TextField fx:id="menu_amount" layoutX="131.0" layoutY="326.0" prefHeight="26.0" prefWidth="154.0" promptText="৳0.00" AnchorPane.bottomAnchor="214.00000000000009" AnchorPane.rightAnchor="34.599999999999994" />
-                                    <Button fx:id="menu_payBtn" layoutX="49.0" layoutY="435.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="236.0" stylesheets="@mainFormDesign.css" text="Pay" AnchorPane.bottomAnchor="97.00000000000009" AnchorPane.leftAnchor="49.0" AnchorPane.rightAnchor="35.19999999999999">
+                                    <Button fx:id="menu_payBtn" layoutX="49.0" layoutY="435.0" mnemonicParsing="false" onAction="#menuPayBtn" prefHeight="34.0" prefWidth="236.0" stylesheets="@mainFormDesign.css" text="Pay" AnchorPane.bottomAnchor="97.00000000000009" AnchorPane.leftAnchor="49.0" AnchorPane.rightAnchor="35.19999999999999">
                                        <styleClass>
                                           <String fx:value="nav-btn" />
                                           <String fx:value="btn" />
@@ -364,7 +369,7 @@
                                           <Font name="System Bold" size="15.0" />
                                        </font>
                                     </Button>
-                                    <Button fx:id="menu_removeBtn" layoutX="46.0" layoutY="504.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="108.0" stylesheets="@mainFormDesign.css" text="Remove" AnchorPane.bottomAnchor="27.199999999999932" AnchorPane.leftAnchor="46.0">
+                                    <Button fx:id="menu_removeBtn" layoutX="46.0" layoutY="504.0" mnemonicParsing="false" onAction="#menuRemoveBtn" prefHeight="35.0" prefWidth="108.0" stylesheets="@mainFormDesign.css" text="Remove" AnchorPane.bottomAnchor="27.199999999999932" AnchorPane.leftAnchor="46.0">
                                        <styleClass>
                                           <String fx:value="nav-btn" />
                                           <String fx:value="btn" />

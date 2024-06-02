@@ -9,12 +9,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 }
 
 .btn{
-    -fx-background-color: linear-gradient(to bottom right, #098c53, #246861); 
+    -fx-background-color: linear-gradient(to bottom right, #2da1c1, #174c5b); 
     -fx-cursor: hand;
     -fx-text-fill: #fff;
 }
 .btn:hover{
-    -fx-background-color: linear-gradient(to bottom right, #0fb565, #399a8f); 
+    -fx-background-color: linear-gradient(to bottom right, #132e48, #2d78c9); 
 }
 
 .shadow{

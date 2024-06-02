@@ -35,7 +35,7 @@ import javafx.stage.Stage;
 
 /**
  *
- * @author sumaiya
+ * @author khskr
  */
 public class FXMLDocumentController implements Initializable {
 
@@ -119,7 +119,9 @@ public class FXMLDocumentController implements Initializable {
     private ResultSet result;
 
     private Alert alert;
-
+    
+    
+     
     public void loginBtn() {
 
         if (si_username.getText().isEmpty() || si_password.getText().isEmpty()) {
@@ -143,6 +145,8 @@ public class FXMLDocumentController implements Initializable {
 
                 // if both are correct, move to the next page
                 if (result.next()) {
+                    
+                    data.username = si_username.getText();
                     alert = new Alert(AlertType.INFORMATION);
                     alert.setTitle("Information Message");
                     alert.setHeaderText(null);
