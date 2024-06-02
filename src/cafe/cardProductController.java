@@ -57,13 +57,6 @@ public class cardProductController implements Initializable {
     private Connection connect;
     private PreparedStatement prepare;
     private ResultSet result;
-    
-    private int qty;
-
-    
-
-    private double totalP;
-    private double pr;
 
     private Alert alert;
 
@@ -82,13 +75,21 @@ public class cardProductController implements Initializable {
         pr = prodData.getPrice();
 
     }
-    
+    private int qty;
+
+    public void setQuantity() {
+        spin = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 100, 0);
+        prod_spinner.setValueFactory(spin);
+    }
+
+    private double totalP;
+    private double pr;
 
     
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-       
+        setQuantity();
     }
 
-} 
+}

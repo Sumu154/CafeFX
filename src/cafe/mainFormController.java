@@ -34,6 +34,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Date;
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -554,6 +555,101 @@ public class mainFormController implements Initializable {
         return listData;
     }
     
+    public void menuDisplayCard() {
+        
+        cardListData.clear();
+        cardListData.addAll(menuGetData());
+        
+        int row = 0;
+        int column = 0;
+        
+        menu_gridPane.getChildren().clear();
+        menu_gridPane.getRowConstraints().clear();
+        menu_gridPane.getColumnConstraints().clear();
+        
+        for (int q = 0; q < cardListData.size(); q++) {
+            
+            try {
+                FXMLLoader load = new FXMLLoader();
+                load.setLocation(getClass().getResource("cardProduct.fxml"));
+                AnchorPane pane = load.load();
+                cardProductController cardC = load.getController();
+                cardC.setData(cardListData.get(q));
+                
+                if (column == 3) {
+                    column = 0;
+                    row += 1;
+                }
+                
+                menu_gridPane.add(pane, column++, row);
+                
+                GridPane.setMargin(pane, new Insets(10));
+                
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    public ObservableList<productData> menuGetOrder() {
+        customerID();
+        ObservableList<productData> listData = FXCollections.observableArrayList();
+        
+        String sql = "SELECT * FROM customer WHERE customer_id = " + cID;
+        
+        connect = database.connectDB();
+        
+        try {
+            
+            prepare = connect.prepareStatement(sql);
+            result = prepare.executeQuery();
+            
+            productData prod;
+            
+            while (result.next()) {
+                prod = new productData(result.getInt("id"),
+                        result.getString("prod_id"),
+                        result.getString("prod_name"),
+                        result.getString("type"),
+                        result.getInt("quantity"),
+                        result.getDouble("price"),
+                        result.getString("image"),
+                        result.getDate("date"));
+                listData.add(prod);
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return listData;
+    }
+    
+    private ObservableList<productData> menuOrderListData;
+    
+    public void menuShowOrderData() {
+        menuOrderListData = menuGetOrder();
+        
+        menu_col_productName.setCellValueFactory(new PropertyValueFactory<>("productName"));
+        menu_col_quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        menu_col_price.setCellValueFactory(new PropertyValueFactory<>("price"));
+        
+        menu_tableView.setItems(menuOrderListData);
+    }
+    private int getid;
+    
+    public void menuSelectOrder() {
+        productData prod = menu_tableView.getSelectionModel().getSelectedItem();
+        int num = menu_tableView.getSelectionModel().getSelectedIndex();
+        
+        if ((num - 1) < -1) {
+            return;
+        }
+        // TO GET THE ID PER ORDER
+        getid = prod.getId();
+        
+    }
+    
     public void logout(){
         try{
             alert = new Alert(AlertType.CONFIRMATION);
@@ -592,6 +688,7 @@ public class mainFormController implements Initializable {
         inventoryTypeList();
         inventoryStatusList();
         inventoryShowData();
+        menuDisplayCard();
     }
     
 }

@@ -304,17 +304,13 @@
                                  </styleClass>
                                  <children>
                                     <ScrollPane fx:id="menu_scrollPane" layoutX="18.0" layoutY="12.0" prefHeight="544.0" prefWidth="482.0" AnchorPane.bottomAnchor="18.399999999999977" AnchorPane.leftAnchor="18.0" AnchorPane.rightAnchor="18.40000000000009" AnchorPane.topAnchor="12.0">
-                                      <content>
-                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
-                                             <children>
-                                                <GridPane fx:id="menu_gridPane" layoutX="1.0" layoutY="1.0" prefHeight="18.0" prefWidth="70.0">
-                                                  <columnConstraints>
-                                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                                  </columnConstraints>
-                                                </GridPane>
-                                             </children>
-                                          </AnchorPane>
-                                      </content>
+                                       <content>
+                                          <GridPane fx:id="menu_gridPane" prefHeight="27.0" prefWidth="100.0">
+                                            <columnConstraints>
+                                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                            </columnConstraints>
+                                          </GridPane>
+                                       </content>
                                     </ScrollPane>
                                  </children>
                               </AnchorPane>
