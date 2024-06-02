@@ -34,6 +34,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Date;
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -65,6 +66,9 @@ public class mainFormController implements Initializable {
 
     @FXML
     private Button inventory_clearBtn;
+    
+    @FXML
+    private AnchorPane dashboard_form;
 
     @FXML
     private TableColumn<productData, String> inventory_col_date;
@@ -222,16 +226,16 @@ public class mainFormController implements Initializable {
                 else{
                     
                     String insertData = "INSERT INTO product "
-                            + "(prod_id, prod_name, type, price, stock, status, image, date) "
+                            + "(prod_id, prod_name, type, stock, price, status, image, date) "
                             + "VALUES(?,?,?,?,?,?,?,?)";
                     
                     prepare = connect.prepareStatement(insertData);
                     prepare.setString(1, inventory_productID.getText());
                     prepare.setString(2, inventory_productName.getText());
-                    prepare.setString(3, (String)inventory_type.getSelectionModel().getSelectedItem());
-                    prepare.setString(4, inventory_price.getText());
-                    prepare.setString(5, inventory_stock.getText());
-                    prepare.setString(6, (String)inventory_status.getSelectionModel().getSelectedItem());
+                    prepare.setString(3, (String) inventory_type.getSelectionModel().getSelectedItem());
+                    prepare.setString(4, inventory_stock.getText());
+                    prepare.setString(5, inventory_price.getText());
+                    prepare.setString(6, (String) inventory_status.getSelectionModel().getSelectedItem());
                     
                     String path = data.path;
                     path = path.replace("\\", "\\\\");
@@ -455,8 +459,8 @@ public class mainFormController implements Initializable {
                         result.getString("prod_id"),
                         result.getString("prod_name"),
                         result.getString("type"),
-                        result.getDouble("price"),
                         result.getInt("stock"),
+                        result.getDouble("price"),
                         result.getString("status"),
                         result.getString("image"),
                         result.getDate("date"));
@@ -485,8 +489,8 @@ public class mainFormController implements Initializable {
         inventory_col_productID.setCellValueFactory(new PropertyValueFactory<>("productId"));
         inventory_col_productName.setCellValueFactory(new PropertyValueFactory<>("productName"));
         inventory_col_type.setCellValueFactory(new PropertyValueFactory<>("type"));
-        inventory_col_price.setCellValueFactory(new PropertyValueFactory<>("price"));
         inventory_col_stock.setCellValueFactory(new PropertyValueFactory<>("stock"));
+        inventory_col_price.setCellValueFactory(new PropertyValueFactory<>("price"));
         inventory_col_status.setCellValueFactory(new PropertyValueFactory<>("status"));
         inventory_col_date.setCellValueFactory(new PropertyValueFactory<>("date"));
             
@@ -590,63 +594,69 @@ public class mainFormController implements Initializable {
             }
         }
     }
+
+
     
-    public ObservableList<productData> menuGetOrder() {
-        customerID();
-        ObservableList<productData> listData = FXCollections.observableArrayList();
+    private int cID;
+    
+    public void customerID() {
         
-        String sql = "SELECT * FROM customer WHERE customer_id = " + cID;
-        
+        String sql = "SELECT MAX(customer_id) FROM customer";
         connect = database.connectDB();
         
         try {
-            
             prepare = connect.prepareStatement(sql);
             result = prepare.executeQuery();
             
-            productData prod;
-            
-            while (result.next()) {
-                prod = new productData(result.getInt("id"),
-                        result.getString("prod_id"),
-                        result.getString("prod_name"),
-                        result.getString("type"),
-                        result.getInt("quantity"),
-                        result.getDouble("price"),
-                        result.getString("image"),
-                        result.getDate("date"));
-                listData.add(prod);
+            if (result.next()) {
+                cID = result.getInt("MAX(customer_id)");
             }
+            
+            String checkCID = "SELECT MAX(customer_id) FROM receipt";
+            prepare = connect.prepareStatement(checkCID);
+            result = prepare.executeQuery();
+            int checkID = 0;
+            if (result.next()) {
+                checkID = result.getInt("MAX(customer_id)");
+            }
+            
+            if (cID == 0) {
+                cID += 1;
+            } else if (cID == checkID) {
+                cID += 1;
+            }
+            
+            data.cID = cID;
             
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
-        return listData;
     }
     
-    private ObservableList<productData> menuOrderListData;
-    
-    public void menuShowOrderData() {
-        menuOrderListData = menuGetOrder();
+    public void switchForm(ActionEvent event) {
         
-        menu_col_productName.setCellValueFactory(new PropertyValueFactory<>("productName"));
-        menu_col_quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-        menu_col_price.setCellValueFactory(new PropertyValueFactory<>("price"));
-        
-        menu_tableView.setItems(menuOrderListData);
-    }
-    private int getid;
-    
-    public void menuSelectOrder() {
-        productData prod = menu_tableView.getSelectionModel().getSelectedItem();
-        int num = menu_tableView.getSelectionModel().getSelectedIndex();
-        
-        if ((num - 1) < -1) {
-            return;
-        }
-        // TO GET THE ID PER ORDER
-        getid = prod.getId();
+        if (event.getSource() == dashboard_btn) {
+            dashboard_form.setVisible(true);
+            inventory_form.setVisible(false);
+            menu_form.setVisible(false);
+            
+        } else if (event.getSource() == inventory_btn) {
+            dashboard_form.setVisible(false);
+            inventory_form.setVisible(true);
+            menu_form.setVisible(false);
+
+            inventoryTypeList();
+            inventoryStatusList();
+            inventoryShowData();
+        } else if (event.getSource() == menu_btn) {
+            dashboard_form.setVisible(false);
+            inventory_form.setVisible(false);
+            menu_form.setVisible(true);
+            
+            
+            menuDisplayCard();
+            
+        } 
         
     }
     

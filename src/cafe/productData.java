@@ -9,7 +9,6 @@ import java.sql.Date;
 
 
 public class productData {
-
     private Integer id;
     private String productId;
     private String productName;
@@ -22,8 +21,8 @@ public class productData {
     private Integer quantity;
 
     public productData(Integer id, String productId,
-             String productName, String type, Double price, Integer stock,
-              String status, String image, Date date) {
+             String productName, String type, Integer stock,
+             Double price, String status, String image, Date date) {
         this.id = id;
         this.productId = productId;
         this.productName = productName;
